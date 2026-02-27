@@ -1,0 +1,10 @@
+Full Name: [Your Full Name]
+Roll Number: [Your Roll Number]
+Email Address: [Your Email Address]
+Contact Number: [Your Contact Number]
+Course Name: Python Programming
+
+Personal Introduction:
+I am a dedicated student passionate about learning programming and developing practical solutions. 
+My goal is to build robust, efficient software that solves real-world problems. 
+I enjoy working with object-oriented programming and database systems to create scalable applications.

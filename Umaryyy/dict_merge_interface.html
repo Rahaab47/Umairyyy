@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary Merge | Student Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #4cc9f0;
+            --accent: #f72585;
+            --success: #4ade80;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #94a3b8;
+            --card-bg: #1e293b;
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.17, 0.67, 0.88, 1.01);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            opacity: 0.03;
+            z-index: -1;
+            font-size: 10rem;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        .decoration-1 {
+            top: 10%;
+            right: 10%;
+            color: var(--secondary);
+        }
+
+        .decoration-2 {
+            bottom: 15%;
+            left: 8%;
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: var(--light);
+            margin-bottom: 15px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--secondary), #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-header {
+            padding: 25px 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #60a5fa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: white;
+            box-shadow: 0 10px 25px rgba(76, 201, 240, 0.4);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            color: var(--light);
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 18px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.5);
+            color: var(--light);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+
+        textarea:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--secondary), #60a5fa);
+            color: white;
+            border-radius: 52px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(76, 201, 240, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: var(--transition);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(76, 201, 240, 0.5);
+            background: linear-gradient(135deg, #60a5fa, #439bf0);
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-title {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--light);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .result-card {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(74, 222, 128, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--success);
+            font-size: 1.4rem;
+        }
+
+        .result-label {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .dict-display {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .examples {
+            margin-top: 40px;
+        }
+
+        .examples h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--light);
+            text-align: center;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .example-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .example-text {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .card-body {
+                padding: 25px 20px;
+            }
+            
+            .input-container i {
+                left: 12px;
+            }
+            
+            textarea {
+                padding: 16px 16px;
+            }
+            
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decoration decoration-1"><i class="fas fa-object-group"></i></div>
+    <div class="decoration decoration-2"><i class="fas fa-code"></i></div>
+
+    <div class="container">
+        <header>
+            <h1>🔗 Dictionary Merge</h1>
+            <p class="subtitle">Merge two dictionaries with key conflict resolution</p>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-object-group"></i>
+                </div>
+                <h2 class="card-title">Merge Dictionaries</h2>
+            </div>
+            <div class="card-body">
+                <div class="input-group">
+                    <label for="dict1Input">Dictionary 1 (JSON format)</label>
+                    <div class="input-container">
+                        <i class="fas fa-file-code"></i>
+                        <textarea id="dict1Input" placeholder="Enter dictionary 1 in JSON format" autocomplete="off">{"a": 1, "b": 2, "c": 3}</textarea>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="dict2Input">Dictionary 2 (JSON format)</label>
+                    <div class="input-container">
+                        <i class="fas fa-file-code"></i>
+                        <textarea id="dict2Input" placeholder="Enter dictionary 2 in JSON format" autocomplete="off">{"b": 4, "c": 5, "d": 6}</textarea>
+                    </div>
+                </div>
+                
+                <button id="mergeBtn" class="btn">
+                    <i class="fas fa-compress-alt"></i> Merge Dictionaries
+                </button>
+                
+                <div class="result-container" id="resultContainer" style="display: none;">
+                    <div class="result-title">Merged Result</div>
+                    
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <div class="result-header">
+                                <div class="result-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="result-label">Dictionary 1</div>
+                            </div>
+                            <div class="dict-display" id="dict1Display">
+                                {"a": 1, "b": 2, "c": 3}
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-header">
+                                <div class="result-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="result-label">Dictionary 2</div>
+                            </div>
+                            <div class="dict-display" id="dict2Display">
+                                {"b": 4, "c": 5, "d": 6}
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-header">
+                                <div class="result-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="result-label">Merged Result</div>
+                            </div>
+                            <div class="dict-display" id="mergedDisplay">
+                                {"a": 1, "b": 4, "c": 5, "d": 6}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>💡 Example Merges</h3>
+            <div class="example-grid">
+                <div class="example-card">
+                    <div class="example-text">Dict1: {"x": 1, "y": 2}<br>Dict2: {"y": 3, "z": 4}</div>
+                    <div style="margin: 15px 0; font-size: 1.2rem;">Result: {"x": 1, "y": 3, "z": 4}</div>
+                    <div style="color: var(--success); font-weight: 600;">Key 'y' from Dict2 wins</div>
+                </div>
+                <div class="example-card">
+                    <div class="example-text">Dict1: {"a": "hello", "b": 5}<br>Dict2: {"a": "world", "c": true}</div>
+                    <div style="margin: 15px 0; font-size: 1.2rem;">Result: {"a": "world", "b": 5, "c": true}</div>
+                    <div style="color: var(--success); font-weight: 600;">Values can be any type</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Dictionary Merge | Python Final Exam Project | Student Management System</p>
+            <p>Merges two dictionaries, with values from second dictionary overriding first on key conflicts</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dict1Input = document.getElementById('dict1Input');
+            const dict2Input = document.getElementById('dict2Input');
+            const mergeBtn = document.getElementById('mergeBtn');
+            const resultContainer = document.getElementById('resultContainer');
+            const dict1Display = document.getElementById('dict1Display');
+            const dict2Display = document.getElementById('dict2Display');
+            const mergedDisplay = document.getElementById('mergedDisplay');
+
+            // Merge dictionaries function
+            function mergeDictionaries(dict1, dict2) {
+                try {
+                    // Parse JSON strings to objects
+                    const obj1 = JSON.parse(dict1);
+                    const obj2 = JSON.parse(dict2);
+                    
+                    // Merge: obj2 overrides obj1 on key conflicts
+                    const merged = { ...obj1, ...obj2 };
+                    
+                    return {
+                        dict1: obj1,
+                        dict2: obj2,
+                        merged: merged
+                    };
+                } catch (error) {
+                    throw new Error('Invalid JSON format: ' + error.message);
+                }
+            }
+
+            // Format dictionary for display
+            function formatDict(obj) {
+                return JSON.stringify(obj, null, 2);
+            }
+
+            // Merge button click handler
+            mergeBtn.addEventListener('click', function() {
+                const dict1 = dict1Input.value.trim();
+                const dict2 = dict2Input.value.trim();
+                
+                if (!dict1 || !dict2) {
+                    alert('Please enter both dictionaries.');
+                    return;
+                }
+
+                try {
+                    const result = mergeDictionaries(dict1, dict2);
+                    
+                    // Update displays
+                    dict1Display.textContent = formatDict(result.dict1);
+                    dict2Display.textContent = formatDict(result.dict2);
+                    mergedDisplay.textContent = formatDict(result.merged);
+
+                    // Show result container
+                    resultContainer.style.display = 'block';
+                    
+                    // Add animation
+                    resultContainer.classList.add('animate');
+                    setTimeout(() => {
+                        resultContainer.classList.add('appear');
+                    }, 100);
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            });
+
+            // Enter key support for textarea (Ctrl+Enter to merge)
+            dict1Input.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    mergeBtn.click();
+                }
+            });
+
+            dict2Input.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    mergeBtn.click();
+                }
+            });
+
+            // Add hover effects to button
+            mergeBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 12px 30px rgba(76, 201, 240, 0.5)';
+            });
+
+            mergeBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 8px 25px rgba(76, 201, 240, 0.4)';
+            });
+
+            // Initialize with default examples
+            mergeBtn.click();
+
+            // Animation for cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.add('animate');
+                setTimeout(() => {
+                    card.classList.add('appear');
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
