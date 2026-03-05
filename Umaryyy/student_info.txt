@@ -1,8 +1,43 @@
-Full Name: [Your Full Name]
-Roll Number: [Your Roll Number]
-Email Address: [Your Email Address]
-Contact Number: [Your Contact Number]
-Course Name: Python Programming
+================================
+       STUDENT INFORMATION
+================================
+
+Full Name:
+Muzammal Hussain
+
+Roll Number:
+00000
+
+Email Address:
+muzammal57gc@gmail.com
+
+Contact Number:
+03143876348
+
+Course Name:
+Python Programming
+
+Institution:
+Hunarmand Punjab
+
+================================
+    PERSONAL INTRODUCTION
+================================
+
+My name is Muzammal Hussain, and I am a student of the Hunarmand Punjab Python program, enrolled in the Python Programming course. My roll number is 00000, and I am passionate about improving my programming skills and becoming a professional developer. You can contact me at muzammal57gc@gmail.com or 03143876348 for any academic correspondence.
+
+================================
+    ASSIGNMENT SUBMISSION
+================================
+
+This submission contains the complete solution for the Python Programming Final Exam Project, including:
+
+✓ Part 1: Student Management System (SMS) with CRUD operations
+✓ Part 2: Code Problems (6 problems solved)
+✓ All required documentation and source code
+✓ Database and configuration files
+
+Submission Date: March 5, 2026
 
 Personal Introduction:
 I am a dedicated student passionate about learning programming and developing practical solutions. 
